@@ -35,9 +35,9 @@ class App(customtkinter.CTk):
             App.source_folder = folder_name
 
         def select_folder_1():
-            folder_name = fd.askdirectory()
-            self.entry_3.insert(0, folder_name)
-            App.destination_folder = folder_name
+            folder_name_1 = fd.askdirectory()
+            self.entry_3.insert(0, folder_name_1)
+            App.destination_folder = folder_name_1
 
         def run_program():
             if self.option_menu_1.get() == 'Trail Balance':
@@ -56,7 +56,7 @@ class App(customtkinter.CTk):
                                          message='It seems the file is open. Please close the excel file and re-run the program')
             elif self.option_menu_1.get() == 'GL Balance':
                 try:
-                    gl = OpenItems(file_path=App.source_file, bsr_path=App.destination_folder,output_path=App.destination_folder)
+                    gl = OpenItems(file_path=App.source_file, source_path=App.source_folder,target_path=App.destination_folder)
                     gl.get_source_file()
                     gl.get_destination_folder()
                     gl.data_to_destination()
@@ -65,6 +65,9 @@ class App(customtkinter.CTk):
                 except FileNotFoundError:
                     messagebox.showerror(title='Error',
                                          message='There are no files in this path.Please check again.')
+                except PermissionError:
+                    messagebox.showerror(title='Error',
+                                         message='It seems the file is open. Please close the excel file and re-run the program')
             else:
                 messagebox.showerror(title='Error',
                                      message='Please select a task to run the program.')
